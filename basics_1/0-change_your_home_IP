@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 # Configures localhost and facebook.com IP addresses
-sudo sed -i 's/127.0.0.1[[:space:]]*localhost/127.0.0.2 localhost/' /etc/hosts
-echo '8.8.8.8 facebook.com' | sudo tee -a /etc/hosts > /dev/null
+sudo awk '{if ($2 == "localhost") print "127.0.0.2 localhost"; else print $0}' /etc/hosts | sudo tee /tmp/hosts.new > /dev/null
+sudo cp /tmp/hosts.new /etc/hosts
+echo "8.8.8.8 facebook.com" | sudo tee -a /etc/hosts > /dev/null
